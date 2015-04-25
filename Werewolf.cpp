@@ -1,3 +1,7 @@
+#include "Human.h"
+#include "Vampire.h"
+#include "Werewolf.h"
+
 Werewolf::Werewolf(int HP, int attack, int defense, int firstStrikeChance):Human(HP, attack, defense, firstStrikeChance){}
 
 void basicAttack(Human *target) {target->receiveAttack(this);}

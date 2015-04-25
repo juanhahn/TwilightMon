@@ -1,6 +1,6 @@
-#include <Human.h>
-#include <Vampire.h>
-#include <Werewolf.h>
+#include "Human.h"
+#include "Vampire.h"
+#include "Werewolf.h"
 
 
 Vampire::Vampire(int lifestealAmount, int HP, int attack, int defense, int firstStrikeChance):Human(HP, attack, defense, firstStrikeChance)

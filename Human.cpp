@@ -1,6 +1,6 @@
-#include<Human.h>
-#include<Vampire.h>
-#include<Werewolf.h>
+#include "Human.h"
+#include "Vampire.h"
+#include "Werewolf.h"
 
 Human::Human(int HP, int attack, int defense, int firstStrikeChance)
 {

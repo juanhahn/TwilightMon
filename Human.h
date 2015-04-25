@@ -1,5 +1,9 @@
 #ifndef __HUMAN__
 #define __HUMAN__
+
+#include "Werewolf.h"
+#include "Vampire.h"
+
 class Human
 {
 	protected:
@@ -17,7 +21,7 @@ class Human
 		// attack n°2
 		// attack n°3
 		
-		virtual void receiveAttack(Human *attacker) {this->HP-=attacker->getAtk();};
+		virtual void receiveAttack(Human *attacker) {this->HP-=attacker->getAtk();}
 		virtual void receiveAttack(Vampire *attacker) {this->HP-=attacker->getAtk();}
 		virtual void receiveAttack(Werewolf *attacker) {this->HP-=attacker->getAtk();}
 };
