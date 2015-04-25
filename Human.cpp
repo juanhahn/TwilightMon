@@ -1,6 +1,9 @@
 #include "Human.h"
 #include "Vampire.h"
 #include "Werewolf.h"
+#include <iostream>
+
+using namespace std;
 
 Human::Human(int HP, int attack, int defense, int firstStrikeChance)
 {
@@ -18,6 +21,15 @@ void Human::setHP(int entrada) {HP = entrada;}
 
 void Human::basicAttack(Human *target) {target->receiveAttack(this);}
 
-void Human::receiveAttack(Human *attacker) {this->HP-=attacker->getAtk();}
-void Human::receiveAttack(Vampire *attacker) {this->HP-=attacker->getAtk();}
-void Human::receiveAttack(Werewolf *attacker) {this->HP-=attacker->getAtk();}
+void Human::receiveAttack(Human *attacker) {
+	cout << "attacked by Human" << endl;
+	this->HP-=attacker->getAtk();
+}
+void Human::receiveAttack(Vampire *attacker) {
+	cout << "attacked by Vampire" << endl;
+	this->HP-=attacker->getAtk();
+}
+void Human::receiveAttack(Werewolf *attacker) {
+	cout << "attacked by Werewolf" << endl;
+	this->HP-=attacker->getAtk();
+}

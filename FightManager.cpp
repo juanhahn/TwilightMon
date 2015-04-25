@@ -1,4 +1,8 @@
 #include "FightManager.h"
+#include <iostream>
+
+using namespace std;
+
 FightManager::FightManager(Human *fighterHuman, Werewolf *fighterWolf, Vampire *fighterVamp)
 {
 	fighterHuman = fighterHuman;
@@ -44,7 +48,21 @@ void FightManager::fight()
 		attacker = firstFighterToAttack();
 		target = getOpponent(attacker);
 		attacker->basicAttack(target);
-		target->basicAttack(attacker);
 		cout << "target's HP: " << target->getHP() << endl;
+		target->basicAttack(attacker);
+		cout << "target's HP: " << attacker->getHP() << endl;
 	}
+}
+
+int main()
+{
+	Human *fighterHuman = new Human(100,12,12,50);
+	Vampire *fighterVamp = new Vampire(20,100,10,10,60);
+	Werewolf *fighterWolf = new Werewolf(100,16,16,40);
+
+	FightManager *fm = new FightManager(fighterHuman, fighterWolf, fighterVamp);
+	fm->selectFighters(fighterHuman, fighterVamp);
+	fm->fight();
+	
+	return 0;
 }

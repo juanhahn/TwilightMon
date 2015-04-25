@@ -10,7 +10,6 @@ class FightManager
 	private: 
 		bool rollTurnOrder;
 		int turn;
-		string turnWerewolf;
 		Human *fighterHuman, *fighterA, *fighterB;
 		Werewolf *fighterWolf;
 		Vampire *fighterVamp;
