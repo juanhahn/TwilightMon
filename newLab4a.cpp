@@ -4,9 +4,6 @@
 #include <time.h>
 using namespace std;
 
-class Vampire;
-class Werewolf;
-
 class Human
 {
 	protected:
@@ -30,7 +27,7 @@ class Human
 		// attack n°2
 		// attack n°3
 		
-		virtual void receiveAttack(Human *attacker) {};
+		virtual void receiveAttack(Human *attacker) {this->HP-=attacker->getAtk();};
 		virtual void receiveAttack(Vampire *attacker) {this->HP-=attacker->getAtk();}
 		virtual void receiveAttack(Werewolf *attacker) {this->HP-=attacker->getAtk();}
 };
@@ -48,9 +45,10 @@ class Vampire:public Human
 		void basicAttack(Human *target) {target->receiveAttack(this);}
 		// attack n°2
 		// attack n°3
-		
-		void receiveAttack(Vampire *attacker) {this->hp-=attacker->getAtk();}
-		void receiveAttack(Werewolf *attacker) {this->hp-=attacker->getAtk();}
+
+		virtual void receiveAttack(Human *attacker) {this->HP-=attacker->getAtk();};
+		virtual void receiveAttack(Vampire *attacker) {this->HP-=attacker->getAtk();}
+		virtual void receiveAttack(Werewolf *attacker) {this->HP-=attacker->getAtk();}
 		
 };
 
@@ -62,9 +60,10 @@ class Werewolf:public Human
 		void basicAttack(Human *target) {target->receiveAttack(this);}
 		// attack n°2
 		// attack n°3
-		
-		void receiveAttack(Vampire attacker) {this->hp-=attacker->getAtk();}
-		void receiveAttack(Werewolf attacker) {this->hp-=attacker->getAtk();}
+
+		virtual void receiveAttack(Human *attacker) {this->HP-=attacker->getAtk();};
+		virtual void receiveAttack(Vampire attacker) {this->HP-=attacker->getAtk();}
+		virtual void receiveAttack(Werewolf attacker) {this->HP-=attacker->getAtk();}
 		
 };
 
@@ -74,22 +73,28 @@ class FightManager
 		bool rollTurnOrder;
 		int turn;
 		string turnWerewolf;
-		Human *managerHuman, *fighterA, *fighterB;
-		Werewolf *managerWolf;
-		Vampire *managerVamp;
+		Human *fighterHuman, *fighterA, *fighterB;
+		Werewolf *fighterWolf;
+		Vampire *fighterVamp;
 	public:
 		FightManager(Human *fighterHuman, Werewolf *fighterWolf, Vampire *fighterVamp)
 		{
-			managerHuman = fighterHuman;
-			managerVamp = fighterVamp;
-			managerWolf = fighterWolf;
+			fighterHuman = fighterHuman;
+			fighterVamp = fighterVamp;
+			fighterWolf = fighterWolf;
 			turn = 0; // valor "Null"
 			rollTurnOrder = false; // valor "Null"
+		}
+
+		void selectFighters(Human *fighter1, Human *fighter2)
+		{
+			fighterA = fighter1;
+			fighterB = fighter2;
 		}
 		
 		Human *firstFighterToAttack()
 		{
-			int randMax = fighterA->getFirstStrikeChance()+fighterB->getFirstStrikeChance();
+			return fighterA; // simplified version for now
 		}
 
 		Human *getOpponent(Human *fighter)
@@ -104,16 +109,21 @@ class FightManager
 			}
 		}
 
+		bool bothAlive() {
+			return fighterA->getHP() > 0 && fighterB->getHP() > 0;
+		}
+
 		void fight()
 		{
 			Human *attacker;
 			Human *target;
 			//chose first strike
-			while ( both_alive ) {
+			while ( bothAlive() ) {
 				attacker = firstFighterToAttack();
 				target = getOpponent(attacker);
 				attacker->basicAttack(target);
 				target->basicAttack(attacker);
+				cout << "target's HP: " << target->getHP() << endl;
 			}
 		}
 		
@@ -124,6 +134,10 @@ int main()
 	Human *fighterHuman = new Human(100,12,12,50);
 	Vampire *fighterVamp = new Vampire(20,100,10,10,60);
 	Werewolf *fighterWolf = new Werewolf(100,16,16,40);
+
+	FightManager *fm = new FightManager(fighterHuman, fighterWolf, fighterVamp);
+	fm->selectFighters(fighterHuman, fighterVamp);
+	fm->fight();
 	
 	return 0;
 }
