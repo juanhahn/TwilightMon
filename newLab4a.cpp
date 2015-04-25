@@ -4,6 +4,8 @@
 #include <time.h>
 using namespace std;
 
+class Vampire:public Human;
+
 class Human
 {
 	protected:
