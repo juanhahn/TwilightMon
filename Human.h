@@ -1,8 +1,8 @@
 #ifndef __HUMAN__
 #define __HUMAN__
 
-#include "Werewolf.h"
-#include "Vampire.h"
+class Vampire;
+class Werewolf;
 
 class Human
 {
@@ -11,18 +11,18 @@ class Human
 	public:
 		Human(int HP, int attack, int defense, int firstStrikeChance);
 		
-		int getHP() {return HP;}
-		int getAtk() {return attack;}
-		int getDef() {return defense;};
-		int getFirstStrikeChance() {return firstStrikeChance;}
-		void setHP(int entrada) {HP = entrada;}
+		int getHP();
+		int getAtk();
+		int getDef();
+		int getFirstStrikeChance();
+		void setHP(int entrada);
 		
-		void basicAttack(Human *target) {target->receiveAttack(this);}
+		void basicAttack(Human *target);
 		// attack n°2
 		// attack n°3
 		
-		virtual void receiveAttack(Human *attacker) {this->HP-=attacker->getAtk();}
-		virtual void receiveAttack(Vampire *attacker) {this->HP-=attacker->getAtk();}
-		virtual void receiveAttack(Werewolf *attacker) {this->HP-=attacker->getAtk();}
+		virtual void receiveAttack(Human *attacker);
+		virtual void receiveAttack(Vampire *attacker);
+		virtual void receiveAttack(Werewolf *attacker);
 };
 #endif

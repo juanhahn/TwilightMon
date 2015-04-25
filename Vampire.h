@@ -4,6 +4,8 @@
 #include "Human.h"
 #include "Werewolf.h"
 
+class Human;
+
 class Vampire:public Human
 {
 	private:
@@ -11,9 +13,8 @@ class Vampire:public Human
 	public:
 		Vampire(int lifestealAmount, int HP, int attack, int defense, int firstStrikeChance);
 		
-		int getLSAmount() {return lifestealAmount;}
-		
-		void basicAttack(Human *target) {target->receiveAttack(this);}
+		int getLSAmount();
+		void basicAttack(Human *target);
 		// attack n°2
 		// attack n°3
 

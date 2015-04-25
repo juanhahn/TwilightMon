@@ -4,7 +4,7 @@
 
 Werewolf::Werewolf(int HP, int attack, int defense, int firstStrikeChance):Human(HP, attack, defense, firstStrikeChance){}
 
-void basicAttack(Human *target) {target->receiveAttack(this);}
+void Werewolf::basicAttack(Human *target) {target->receiveAttack(this);}
 // attack n°2
 // attack n°3
 
