@@ -16,8 +16,8 @@ class Werewolf:public Human
 		// attack n°3
 
 		void receiveAttack(Human *attacker);
-		void receiveAttack(Vampire attacker);
-		void receiveAttack(Werewolf attacker);
+		void receiveAttack(Vampire *attacker);
+		void receiveAttack(Werewolf *attacker);
 		
 };
 #endif

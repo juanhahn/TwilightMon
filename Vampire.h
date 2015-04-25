@@ -21,6 +21,5 @@ class Vampire:public Human
 		virtual void receiveAttack(Human *attacker);
 		virtual void receiveAttack(Vampire *attacker);
 		virtual void receiveAttack(Werewolf *attacker);
-		
 };
 #endif
