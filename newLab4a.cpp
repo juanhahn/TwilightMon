@@ -4,47 +4,43 @@
 #include <time.h>
 using namespace std;
 
-/*=====================================================================================
-Crea el objeto "Human"
-=====================================================================================*/			
+class Vampire;
+class Werewolf;
+
 class Human
 {
 	protected:
 		int HP, attack, defense, firstStrikeChance;
-		string type;
 	public:
-		Human(int HP, int attack, int defense, int firstStrikeChance, string type)
+		Human(int HP, int attack, int defense, int firstStrikeChance)
 		{
 			this->HP = HP;
-			this->atk = atk;
-			this->def = def;
+			this->attack = attack;
+			this->defense = defense;
 			this->firstStrikeChance = firstStrikeChance;
-			this->type = type;
 		}
 		
 		int getHP() {return HP;}
 		int getAtk() {return attack;}
 		int getDef() {return defense;};
 		int getFirstStrikeChance() {return firstStrikeChance;}
-		string getType() {return type;}
 		void setHP(int entrada) {HP = entrada;}
 		
 		void basicAttack(Human *target) {target->receiveAttack(this);}
 		// attack n°2
 		// attack n°3
 		
-		void receiveAttack(Vampire attacker) {this.hp-=attacker.attack;}
-		void receiveAttack(Werewolf attacker) {this.hp-=attacker.attack;}
+		virtual void receiveAttack(Human *attacker) {};
+		virtual void receiveAttack(Vampire *attacker) {this->HP-=attacker->getAtk();}
+		virtual void receiveAttack(Werewolf *attacker) {this->HP-=attacker->getAtk();}
 };
-/*=====================================================================================
-Crea el objeto "Vampire"
-=====================================================================================*/
+
 class Vampire:public Human
 {
 	private:
 		int lifestealAmount;
 	public:
-		Vampire(int lifestealAmount, int HP, int attack, int defense, int firstStrikeChance, string type):Human(HP, attack, defense, firstStrikeChance, type)
+		Vampire(int lifestealAmount, int HP, int attack, int defense, int firstStrikeChance):Human(HP, attack, defense, firstStrikeChance)
 		{this->lifestealAmount = lifestealAmount;}
 		
 		int getLSAmount() {return lifestealAmount;}
@@ -53,29 +49,25 @@ class Vampire:public Human
 		// attack n°2
 		// attack n°3
 		
-		void receiveAttack(Vampire attacker) {this.hp-=attacker.attack;}
-		void receiveAttack(Werewolf attacker) {this.hp-=attacker.attack;}
+		void receiveAttack(Vampire *attacker) {this->hp-=attacker->getAtk();}
+		void receiveAttack(Werewolf *attacker) {this->hp-=attacker->getAtk();}
 		
 };
-/*=====================================================================================
-Crea el objeto "Werewolf"
-=====================================================================================*/
+
 class Werewolf:public Human
 {
 	public:
-		Werewolf(int HP, int attack, int defense, int firstStrikeChance, string type):Human(HP, attack, defense, firstStrikeChance, type){}
+		Werewolf(int HP, int attack, int defense, int firstStrikeChance):Human(HP, attack, defense, firstStrikeChance){}
 		
 		void basicAttack(Human *target) {target->receiveAttack(this);}
 		// attack n°2
 		// attack n°3
 		
-		void receiveAttack(Vampire attacker) {this.hp-=attacker.attack;}
-		void receiveAttack(Werewolf attacker) {this.hp-=attacker.attack;}
+		void receiveAttack(Vampire attacker) {this->hp-=attacker->getAtk();}
+		void receiveAttack(Werewolf attacker) {this->hp-=attacker->getAtk();}
 		
 };
-/*=====================================================================================
-Crea el objeto "FightManager"
-=====================================================================================*/
+
 class FightManager
 {
 	private: 
@@ -95,20 +87,43 @@ class FightManager
 			rollTurnOrder = false; // valor "Null"
 		}
 		
-		
-		
-		bool rollOrder()
+		Human *firstFighterToAttack()
 		{
-			int randMax = fighterA->getType()+fighterB->getType();
+			int randMax = fighterA->getFirstStrikeChance()+fighterB->getFirstStrikeChance();
+		}
+
+		Human *getOpponent(Human *fighter)
+		{
+			if (fighter == fighterA)
+			{
+				return fighterB;
+			}
+			else
+			{
+				return fighterA;
+			}
+		}
+
+		void fight()
+		{
+			Human *attacker;
+			Human *target;
+			//chose first strike
+			while ( both_alive ) {
+				attacker = firstFighterToAttack();
+				target = getOpponent(attacker);
+				attacker->basicAttack(target);
+				target->basicAttack(attacker);
+			}
 		}
 		
 };
 
 int main()
 {
-	Human *fighterHuman = new Human(100,12,12,50,"Human");
-	Vampire *fighterVamp = new Vampire(20,100,10,10,60,"Vampire");
-	Werewolf *fighterWolf = new Werewolf(100,16,16,40,"Werewolf")
+	Human *fighterHuman = new Human(100,12,12,50);
+	Vampire *fighterVamp = new Vampire(20,100,10,10,60);
+	Werewolf *fighterWolf = new Werewolf(100,16,16,40);
 	
 	return 0;
 }
